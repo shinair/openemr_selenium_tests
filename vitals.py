@@ -8,6 +8,7 @@ from test_utils import *
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.alert import Alert
 
 class TestWebsite_vitals:
     @pytest.fixture(autouse=True)
@@ -77,6 +78,13 @@ class TestWebsite_vitals:
                     link_to_click = span_text.find_element(By.PARTIAL_LINK_TEXT,
                                                            'Click here to view and graph all vitals.')
                     link_to_click.click()
+                    # Switch to the alert and accept/dismiss it
+                    try:
+                        alert = Alert(self.browser)
+                        alert.accept()
+                    except NoAlertPresentException:
+                        # case where there is no alert
+                        pass
 
                     break
             except NoSuchElementException:
